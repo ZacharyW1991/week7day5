@@ -1,81 +1,93 @@
 console.log('Begin');
 
+
+
+
+
+class Player{
+    constructor(){
+        this.points=0;
+        this.dice=[];
+    }
+    findScore(){       
+        if (this.dice.includes(1, 2, 3, 4, 5, 6)){           
+            this.points+=1500
+        } else if (this.dice.includes(5, 5, 5)){
+            this.points+=500
+        } else if (this.dice.includes(4, 4, 4)){
+            this.points+=400
+        } else if (this.dice.includes(3, 3, 3)){
+            this.points+=300
+        } else if (this.dice.includes(2, 2, 2)){
+            this.points+=200
+        } else if (this.dice.includes(1, 1, 1)){
+            this.points+=1000
+        } else {
+            for (die in this.dice){
+                if (die==1){
+                    this.points+=100
+                } else if (die==5){
+                    this.points+=50
+                }
+            }
+        }this.displayScore();
+    }
+    checkWin(){
+        if (this.points>=10000){
+            setTimeout(() => alert('You Win!'), 0)
+        }
+    }
+    rollDice(){
+        this.dice=[];
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        this.dice.push((Math.floor(Math.random()*6)+1))
+        let diceRow=document.getElementById('dice');
+        diceRow.innerHTML='';
+        for (let die of this.dice){
+            let col=document.createElement('div');
+            col.className='col-2 text-center';
+            col.innerHTML=`<h1>${die}</h1>`
+            diceRow.append(col);
+        }
+    }
+    displayScore(){
+        let scoreElement=document.getElementById('score');
+        scoreElement.innerHTML=this.points;
+    }
+}
+
+pageLoader();
+
 function pageLoader(){
     console.log('Loading Page');
 
-    p1=Player();
+    let p1=new Player();
 
-    const diceButton=document.getElementsByClassName('roll-dice-button');
-    for (let btn of diceButton){
-        btn.addEventListener('click', main)
-    }
+    const diceButton=document.getElementById('roll-dice-button');
+    console.log(diceButton);
+    diceButton.addEventListener('click', (e) => main(e, p1))
 
-    let playerScore=p1.points
+    
 
-    rollDice()
 }
 
 
 
-function rollDice(){
-    let dice=[];
-    let rollScore=0;
-    dice.push((Math.random()*6)+1)
-    dice.push((Math.random()*6)+1)
-    dice.push((Math.random()*6)+1)
-    dice.push((Math.random()*6)+1)
-    dice.push((Math.random()*6)+1)
-    dice.push((Math.random()*6)+1)
-}
 
 
-function checkWin(){
-    if (p1.points>=10000){
-        setTimeout(() => alert('You Win!'), 0)
-    }
-}
 
-function main(){
+
+
+function main(e, p1){
+    console.log(p1);
     p1.rollDice();
     p1.findScore();
     p1.checkWin();
 }
 
-function findScore(){
-    if (dice.includes(1, 2, 3, 4, 5, 6)){
-        rollScore+=1500
-        points+=1500
-    } else if (dice.includes(5, 5, 5)){
-        rollScore+=500
-        points+=500
-    } else if (dice.includes(4, 4, 4)){
-        rollScore+=400
-        points+=400
-    } else if (dice.includes(3, 3, 3)){
-        rollScore+=300
-        points+=300
-    } else if (dice.includes(2, 2, 2)){
-        rollScore+=200
-        points+=200
-    } else if (dice.includes(1, 1, 1)){
-        rollScore+=1000
-        points+=1000
-    } else {
-        for (die in dice){
-            if (die==1){
-                rollScore+=100
-                points+=100
-            } else if (die==5){
-                rollScore+=50
-                points+=50
-            }
-        }
-    }
-}
 
-class Player{
-    constructor(points){
-        this.points=0;
-    }
 
-}
